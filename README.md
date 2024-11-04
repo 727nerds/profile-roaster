@@ -1,2 +1,8 @@
-# profile-roaster
-Let AI roast your osu! profile
+```
+npm install
+npm run dev
+```
+
+```
+npm run deploy
+```

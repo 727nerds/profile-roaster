@@ -1,0 +1,14 @@
+{
+  "name": "profile-roaster",
+  "scripts": {
+    "dev": "bun run --watch ./src/index.ts"
+  },
+  "dependencies": {
+    "hono": "^4.6.9",
+    "osu-api-extended": "^3.0.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.13"
+  }
+}

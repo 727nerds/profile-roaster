@@ -9,6 +9,7 @@ import { validLanguages } from './lib/validLanguages';
 import RoastDialog from './components/app/RoastDialog';
 import Turnstile from 'react-turnstile';
 import Help from './components/app/Help';
+import { toast } from 'sonner';
 
 export default function Component() {
   const [username, setUsername] = useState('');
@@ -24,14 +25,19 @@ export default function Component() {
     form.append('language', language);
     form.append('ruleset', ruleset);
     form.append('turnstile', turnstileToken);
-    const message = await (
-      await fetch(
-        `${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : ''}
-      /roast/${username}`,
-        { method: 'POST', body: form }
-      )
-    ).text();
-    setMockingMessage(message);
+
+    const request = await fetch(
+      `${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : ''}/roast/${username}`,
+      { method: 'POST', body: form }
+    );
+    if (!request.ok) {
+      toast.error('An error occurred while mocking your profile. Check the console for more info.');
+      console.error(await request.text());
+      return;
+    }
+
+    const text = await request.text();
+    setMockingMessage(text);
   };
 
   React.useEffect(() => {
@@ -82,6 +88,7 @@ export default function Component() {
                 </Select>
               </div>
               <div className="space-y-2 flex justify-center">
+                <Input type='hidden' name='turnstile' value={turnstileToken} required />
                 <Turnstile
                   sitekey={process.env.NODE_ENV === 'development' ? '1x00000000000000000000AA' : '0x4AAAAAAAzRJjmxRtCjQZGo'}
                   theme="light"

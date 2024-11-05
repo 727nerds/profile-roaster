@@ -7,6 +7,7 @@ import { openai } from './openai';
 import { kv } from './kv';
 import { cors } from 'hono/cors';
 import { serveStatic } from 'hono/bun';
+import turnstileVerify from './turnstileVerify';
 
 const app = new Hono();
 app.use('*', cors())
@@ -29,14 +30,17 @@ app.post(
     validator('form', (value, c) => {
         const result = formSchema.safeParse(value);
         if (!result.success) {
-            return c.json({ error: result.error.errors });
+            return c.json({ error: result.error.errors }, 400);
         }
         return result.data;
     }),
     async (c) => {
-        const { ruleset, language } = c.req.valid('form');
+        const { ruleset, language, turnstile } = c.req.valid('form');
         const username = c.req.param('username')
         const kvKey = `${username.toLowerCase()}:${ruleset}`
+        if (!(await turnstileVerify(turnstile))) {
+            return c.json({ error: 'Invalid turnstile token' }, 400);
+        }
 
         if (await kv.has(kvKey)) {
             return c.text(await kv.getItemRaw(kvKey))

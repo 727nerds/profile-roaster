@@ -24,3 +24,12 @@ export const formSchema = z.object({
     language: z.enum(validLanguages),
 	turnstile: z.string().min(1),
 });
+
+export interface TurnstileVerifyResponse {
+	success: boolean;
+	challenge_ts: string;
+	hostname: string;
+	'error-codes': string[];
+	action?: string;
+	cdata?: string;
+}

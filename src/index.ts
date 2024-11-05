@@ -3,6 +3,8 @@ import { auth } from 'osu-api-extended';
 import { formSchema } from './types';
 import { validator } from 'hono/validator';
 import buildPrompt from './promptBuilder';
+import { openai } from './openai';
+import { kv } from './kv';
 
 const app = new Hono();
 await auth.login({
@@ -14,8 +16,9 @@ await auth.login({
 });
 
 app.get('/', (c) => {
-    return c.text('Hello Hono!');
-});
+    return c.text('hlelo hono')
+})
+
 
 app.post(
     '/roast/:username',
@@ -29,9 +32,26 @@ app.post(
     async (c) => {
         const { ruleset, language } = c.req.valid('form');
         const username = c.req.param('username')
+        const kvKey = `${username}:${ruleset}`
+
+        if (await kv.has(kvKey)) {
+            return c.text(await kv.getItemRaw(kvKey))
+        }
 
         const prompt = await buildPrompt(username, ruleset, language);
-        return c.json(prompt);
+        const completion = await openai.chat.completions.create({
+            model: 'meta-llama/llama-3.1-70b-instruct:free',
+            messages: [
+                // someday I'll move some of the prompts to the system.
+                { role: 'system', content: 'You are a helpful assistant.' },
+                { role: 'user', content: prompt }
+            ]
+        })
+        const response = completion.choices[0].message.content!
+
+        await kv.set(kvKey, response)
+
+        return c.text(response);
     }
 );
 

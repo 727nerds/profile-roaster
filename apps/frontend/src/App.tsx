@@ -1,12 +1,13 @@
 // submitter and frontend made partially with help of v0
 import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Language, validLanguages } from './lib/validLanguages'
+import { validLanguages } from './lib/validLanguages'
 import RoastDialog from './components/app/RoastDialog'
+import Turnstile from 'react-turnstile'
 
 export default function Component() {
   const [username, setUsername] = useState('')
@@ -14,13 +15,14 @@ export default function Component() {
   const [ruleset, setRuleset] = useState('osu')
   const [roastDialogClose, setRoastDialogClose] = useState(false)
   const [mockingMessage, setMockingMessage] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const form = new FormData()
     form.append('language', language)
     form.append('ruleset', ruleset)
-    console.log('hi')
+    form.append('turnstile', turnstileToken)
     const message = await (await fetch(`https://3000-727nerds-profileroaster-afzq961aypg.ws-eu116.gitpod.io/roast/${username}`, { method: 'POST', body: form })).text()
     setMockingMessage(message)
   }
@@ -76,6 +78,14 @@ export default function Component() {
                   <SelectItem value="mania">mania</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+            <div className="space-y-2">
+              <Turnstile
+                sitekey="1x00000000000000000000AA"
+                onSuccess={(token) => {
+                  setTurnstileToken(token)
+                }}
+              />
             </div>
             <Button type="submit" className="w-full">Mock Me!</Button>
           </form>

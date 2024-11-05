@@ -21,5 +21,6 @@ export type Language = typeof validLanguages[number];
 
 export const formSchema = z.object({
     ruleset: z.union([z.literal('osu'), z.literal('taiko'), z.literal('fruits'), z.literal('mania')]),
-    language: z.enum(validLanguages)
+    language: z.enum(validLanguages),
+	turnstile: z.string(),
 });

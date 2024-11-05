@@ -5,6 +5,8 @@ import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <div vaul-drawer-wrapper="" className="bg-background">
+      <App />
+    </div>
   </StrictMode>,
 )

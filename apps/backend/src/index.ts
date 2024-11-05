@@ -6,9 +6,12 @@ import buildPrompt from './promptBuilder';
 import { openai } from './openai';
 import { kv } from './kv';
 import { cors } from 'hono/cors';
+import { serveStatic } from 'hono/bun';
 
 const app = new Hono();
 app.use('*', cors())
+app.use('*', serveStatic({ root: './public' }))
+
 await auth.login({
     type: 'v2',
     client_id: Number(process.env.OSU_CLIENT_ID),
@@ -20,7 +23,6 @@ await auth.login({
 app.get('/', (c) => {
     return c.text('hlelo hono')
 })
-
 
 app.post(
     '/roast/:username',

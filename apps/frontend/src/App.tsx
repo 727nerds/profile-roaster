@@ -41,10 +41,10 @@ export default function Component() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Osu! Username</Label>
+              <Label htmlFor="username">Username</Label>
               <Input 
                 id="username" 
-                placeholder="Enter your Osu! username" 
+                placeholder="Enter your username" 
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required

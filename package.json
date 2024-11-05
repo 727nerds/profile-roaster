@@ -1,16 +1,19 @@
 {
-  "name": "profile-roaster",
-  "scripts": {
-    "dev": "bun run --watch ./src/index.ts"
-  },
-  "dependencies": {
-    "hono": "^4.6.9",
-    "openai": "^4.71.0",
-    "osu-api-extended": "^3.0.5",
-    "unstorage": "^1.13.1",
-    "zod": "^3.23.8"
-  },
+  "name": "profile-roaster-monorepo",
+  "private": true,
+  "module": "index.ts",
+  "type": "module",
   "devDependencies": {
-    "@types/bun": "^1.1.13"
+    "@types/bun": "latest",
+    "concurrently": "^9.1.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "bun --filter \"*\" dev"
   }
 }

@@ -2,7 +2,6 @@ import { TurnstileVerifyResponse } from "./types";
 
 export default async function turnstileVerify(token: string) {
     const secret = process.env.NODE_ENV === 'development' ? '1x0000000000000000000000000000000AA' : process.env.TURNSTILE_SECRET!;
-    console.log(process.env.NODE_ENV)
     try {
         const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
             method: 'POST',
@@ -15,8 +14,6 @@ export default async function turnstileVerify(token: string) {
             }),
         });
         const data = await response.json() as TurnstileVerifyResponse;
-        console.log(data)
-        console.log(token)
 
         if (response.ok) {
             return data.success;

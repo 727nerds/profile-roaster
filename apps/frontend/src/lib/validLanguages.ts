@@ -1,6 +1,9 @@
 // copy paste of types.ts in backend
 export const validLanguages = [
 	'english',
+	'spanish',
+	'german',
+	'italian',
 	'indonesian',
 	'indian',
 	'chinese',
@@ -10,6 +13,5 @@ export const validLanguages = [
 	'polish',
 	'vietnamese',
 	'arabic',
-	'traditionalChinese'
 ] as const;
 export type Language = typeof validLanguages[number];

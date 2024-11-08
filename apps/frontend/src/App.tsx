@@ -30,6 +30,10 @@ export default function Component() {
       `${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : ''}/roast/${username}`,
       { method: 'POST', body: form }
     );
+    if (!request.ok && request.status === 429) {
+      toast.error('The text is already being generated or you are ratelimited. Please wait a few seconds and try again.');
+      return;
+    }
     if (!request.ok) {
       toast.error('An error occurred while mocking your profile. Check the console for more info.');
       console.error(await request.text());

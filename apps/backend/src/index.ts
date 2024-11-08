@@ -12,6 +12,8 @@ import { logger } from 'hono/logger';
 import { basicAuth } from 'hono/basic-auth';
 import { metricsMiddleware, register, roastCounter } from './metrics';
 
+const currentlyCooking: string[] = [];
+
 const app = new Hono();
 app.use('*', cors());
 app.use('*', serveStatic({ root: './public' }));
@@ -42,15 +44,19 @@ app.post(
     '/roast/:username',
     validator('form', (value, c) => {
         const result = formSchema.safeParse(value);
+        const param = c.req.param('username')?.trim().toLowerCase();
         if (!result.success) {
             return c.json({ error: result.error.errors }, 400);
+        }
+        if (currentlyCooking.includes(`${param}:${result.data.ruleset}:${result.data.language}`)) {
+            return c.json({ error: 'alreadyCooking' }, 429);
         }
         return result.data;
     }),
     async (c) => {
         const { ruleset, language, turnstile } = c.req.valid('form');
         const username = c.req.param('username').trim().toLowerCase();
-        const kvKey = `${username}:${ruleset}`;
+        const kvKey = `${username}:${ruleset}:${language}`;
         if (!(await turnstileVerify(turnstile))) {
             return c.json({ error: 'Invalid turnstile token' }, 400);
         }
@@ -60,6 +66,7 @@ app.post(
             return c.text(await kv.getItemRaw(kvKey));
         }
 
+        currentlyCooking.push(kvKey);
         const prompt = await buildPrompt(username, ruleset, language);
         const completion = await openai.chat.completions.create({
             model: 'meta-llama/llama-3.1-70b-instruct:free',

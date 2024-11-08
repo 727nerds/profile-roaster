@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+.npm
+.yarn
+.pnp.*
+
+# Build outputs
+dist
+build
+*.tsbuildinfo
+
+# Development
+.vscode
+.idea
+*.log
+.env*
+.dev
+dev
+
+# Version control
+.git
+.gitignore
+
+# Cache and temporary files
+.cache
+*.swp
+.DS_Store
+
+# Test files
+coverage
+*.test.ts
+*.spec.ts
+
+# Project specific
+token.json
+kv/

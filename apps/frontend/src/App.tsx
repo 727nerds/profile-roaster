@@ -36,11 +36,13 @@ export default function Component() {
     );
     if (!request.ok && request.status === 429) {
       toast.error('The text is already being generated or you are ratelimited. Please wait a few seconds and try again.');
+      setLoading(false);
       return;
     }
     if (!request.ok) {
       toast.error('An error occurred while mocking your profile. Check the console for more info.');
       console.error(await request.text());
+      setLoading(false);
       return;
     }
 

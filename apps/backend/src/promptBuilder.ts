@@ -1,9 +1,9 @@
-import { auth, v2 } from "osu-api-extended";
+import { v2 } from "osu-api-extended";
 import { Language, Ruleset } from "./types";
 
 export default async function buildPrompt(username: string, ruleset: Ruleset, language: Language) {
     const user = await v2.users.details({ user: username, mode: ruleset, key: '@' });
-    const scores = (await v2.scores.list({ type: 'user_best', user_id: user.id, mode: ruleset, key: '@', limit: 10 }));
+    const scores = (await v2.scores.list({ type: 'user_best', user_id: user.id, mode: ruleset, key: '@', limit: 20 }));
     const mostPlayed = (await v2.users.beatmaps({ id: user.id, type: 'most_played', limit: 5 }));
 
     // Await all promises for scores

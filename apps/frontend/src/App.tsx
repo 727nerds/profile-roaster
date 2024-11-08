@@ -55,6 +55,7 @@ export default function Component() {
       setRoastDialogClose(false);
     }
   }, [roastDialogClose]);
+  
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-[#ff66ab] via-[#b48def] to-[#8662c7] animate-gradient flex items-center justify-center p-4">

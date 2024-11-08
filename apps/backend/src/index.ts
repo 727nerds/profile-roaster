@@ -79,6 +79,7 @@ app.post(
         const response = completion.choices[0].message.content!;
 
         await kv.set(kvKey, response);
+        currentlyCooking.splice(currentlyCooking.indexOf(kvKey), 1);
 
         return c.text(response);
     }

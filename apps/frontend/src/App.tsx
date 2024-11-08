@@ -18,9 +18,13 @@ export default function Component() {
   const [roastDialogClose, setRoastDialogClose] = useState(false);
   const [mockingMessage, setMockingMessage] = useState('');
   const [turnstileToken, setTurnstileToken] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
+    setLoading(true);
+
     const form = new FormData();
     form.append('language', language);
     form.append('ruleset', ruleset);
@@ -42,6 +46,7 @@ export default function Component() {
 
     const text = await request.text();
     setMockingMessage(text);
+    setLoading(false);
   };
 
   React.useEffect(() => {
@@ -101,7 +106,7 @@ export default function Component() {
                   }}
                 />
               </div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" loading={loading}>
                 Mock Me!
               </Button>
             </form>

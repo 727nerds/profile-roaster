@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { validLanguages } from './lib/validLanguages';
 import RoastDialog from './components/app/RoastDialog';
-import Turnstile from 'react-turnstile';
+import Turnstile, { useTurnstile } from 'react-turnstile';
 import Help from './components/app/Help';
 import { toast } from 'sonner';
 
@@ -19,6 +19,7 @@ export default function Component() {
   const [mockingMessage, setMockingMessage] = useState('');
   const [turnstileToken, setTurnstileToken] = useState('');
   const [loading, setLoading] = useState(false);
+  const turnstile = useTurnstile();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,18 +38,21 @@ export default function Component() {
     if (!request.ok && request.status === 429) {
       toast.error('The text is already being generated or you are ratelimited. Please wait a few seconds and try again.');
       setLoading(false);
+      turnstile.reset();
       return;
     }
     if (!request.ok) {
       toast.error('An error occurred while mocking your profile. Check the console for more info.');
       console.error(await request.text());
       setLoading(false);
+      turnstile.reset();
       return;
     }
 
     const text = await request.text();
     setMockingMessage(text);
     setLoading(false);
+    turnstile.reset();
   };
 
   React.useEffect(() => {

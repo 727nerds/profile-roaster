@@ -10,6 +10,7 @@ import RoastDialog from './components/app/RoastDialog';
 import Turnstile, { useTurnstile } from 'react-turnstile';
 import Help from './components/app/Help';
 import { toast } from 'sonner';
+import { Github } from 'lucide-react';
 
 export default function Component() {
   const [username, setUsername] = useState('');
@@ -121,7 +122,7 @@ export default function Component() {
           {mockingMessage && !roastDialogClose && <RoastDialog roast={mockingMessage} close={setRoastDialogClose} />}
         </Card>
       </div>
-      <div className="fixed bottom-2 right-2 bg-white p-4 rounded-md text-sm">
+      <div className="fixed bottom-2 right-2 bg-white p-2 rounded-md text-sm">
         <div className="flex items-center mb-2">
           Submission #1 for{' '}
           <a href="https://highseas.hackclub.com" target="_blank" rel="noreferrer" className="text-blue-500 hover:text-blue-700 transition-colors ml-1">
@@ -138,10 +139,8 @@ export default function Component() {
           <a href="https://github-roast.pages.dev/" target="_blank" rel="noreferrer" className="text-blue-500 hover:text-blue-700 transition-colors ml-1">
             GitHub Profile Roast
           </a>
-        </div>
-        <div className="flex items-center">
-          <a href="https://github.com/727nerds/osu-roast" target="_blank" rel="noreferrer" className="text-blue-500 hover:text-blue-700 transition-colors">
-            Source code
+          <a href="https://github.com/727nerds/osu-roast" target="_blank" rel="noreferrer" className="text-blue-500 hover:text-blue-700 transition-colors ml-1">
+            <Github />
           </a>
         </div>
       </div>

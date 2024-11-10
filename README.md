@@ -14,6 +14,14 @@ The ultimate tool for competitive osu! players who need a reality check. This AI
 - 🎮 Farm map detection
 - ⏱️ Play time to grass touch ratio calculator
 
+## Tech Stack
+
+- 🎯 Bun - Because Node.js is as slow as your streaming speed
+- ⚡ Hono - Fast backend framework (unlike your reaction time)
+- 🎨 React & shadcn/ui - For that smooth UI (smoother than your aim)
+- 📊 Prometheus + Grafana - To track how many people get roasted
+- 🗄️ Dragonfly (redis) - For caching (like how you cache PP)
+
 ## Getting Started
 
 ### Prerequisites
@@ -56,14 +64,6 @@ bun run dev
 docker compose -f dev/compose.yml up -d
 # Dragonfly isn't necessary for development as data is stored in the kv directory.
 ```
-
-## Tech Stack
-
-- 🎯 Bun - Because Node.js is as slow as your streaming speed
-- ⚡ Hono - Fast backend framework (unlike your reaction time)
-- 🎨 React & shadcn/ui - For that smooth UI (smoother than your aim)
-- 📊 Prometheus + Grafana - To track how many people get roasted
-- 🗄️ Dragonfly (redis) - For caching (like how you cache PP)
 
 ## Contributing
 

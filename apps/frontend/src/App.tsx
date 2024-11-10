@@ -8,7 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { validLanguages } from './lib/validLanguages';
 import RoastDialog from './components/app/RoastDialog';
 import Turnstile, { useTurnstile } from 'react-turnstile';
-import Help from './components/app/Help';
 import { toast } from 'sonner';
 import { Github } from 'lucide-react';
 
@@ -127,8 +126,8 @@ export default function Component() {
           Submission #1 for{' '}
           <a href="https://highseas.hackclub.com" target="_blank" rel="noreferrer" className="text-blue-500 hover:text-blue-700 transition-colors ml-1">
             Hackclub High Seas
-          </a>{' '}
-          <Help />
+          </a>{'. '}
+          Now using 4o-mini.
         </div>
         <div className="flex items-center mb-2">
           Made by{' '}
@@ -139,7 +138,7 @@ export default function Component() {
           <a href="https://github-roast.pages.dev/" target="_blank" rel="noreferrer" className="text-blue-500 hover:text-blue-700 transition-colors ml-1">
             GitHub Profile Roast
           </a>
-          <a href="https://github.com/727nerds/osu-roast" target="_blank" rel="noreferrer" className="text-blue-500 hover:text-blue-700 transition-colors ml-1">
+          <a href="https://github.com/727nerds/profile-roaster" target="_blank" rel="noreferrer" className="text-blue-500 hover:text-blue-700 transition-colors ml-1">
             <Github />
           </a>
         </div>
